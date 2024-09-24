@@ -1,0 +1,230 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+} */
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@layer base {
+  :root {
+    --background: #fff;
+    --foreground: #eaeaf4;
+    --muted: #f6f6f6;
+    --muted-foreground: #8c8f96;
+    --accent: #c6c6c6;
+
+    --secondary: #b1a4fb;
+    --secondary50: #b1a4fb50;
+
+    --title: #1d1e20;
+    --text: #404548;
+    --link: #0078f8;
+
+    --input: #f6f6f6;
+    --border: #c6c6c6;
+
+    --danger: #ea2845;
+    --success: #5fb883;
+    --warning: #ddcb6b;
+    --sky: #72bfe2;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 3.9%;
+
+    --primary-foreground: 0 0% 98%;
+    --secondary-foreground: 0 0% 9%;
+
+    --accent-foreground: 0 0% 9%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --ring: 0 0% 3.9%;
+    --chart-1: 12 76% 61%;
+    --chart-2: 173 58% 39%;
+    --chart-3: 197 37% 24%;
+    --chart-4: 43 74% 66%;
+    --chart-5: 27 87% 67%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: #141414;
+    --foreground: #1a1a1a;
+    --muted: #222222;
+    --muted-foreground: #5c5c5c;
+    --accent: #3a3a3a;
+
+    --secondary: #b1a4fb;
+
+    --title: #fff;
+    --text: #9d9d9d;
+    --link: #0078f8;
+
+    --input: #222222;
+    --border: #3a3a3a;
+
+    --card: 0 0% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 0 0% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary-foreground: 0 0% 9%;
+    --secondary-foreground: 0 0% 98%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --ring: 0 0% 83.1%;
+    --chart-1: 220 70% 50%;
+    --chart-2: 160 60% 45%;
+    --chart-3: 30 80% 55%;
+    --chart-4: 280 65% 60%;
+    --chart-5: 340 75% 55%;
+  }
+}
+
+.hiddenScrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hiddenScrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+span,
+p,
+ul,
+ol {
+  @apply text-text;
+}
+
+input {
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  width: 100%;
+  color: var(--text);
+}
+
+input:focus {
+  outline: 2px solid var(--secondary);
+  outline-offset: 2px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply text-title;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+code {
+  @apply caret-white text-[#abb2bf] bg-[#0d0d0d] rounded-sm shadow-lg font-mono;
+
+  &::selection {
+    @apply bg-white/30;
+  }
+}
+
+pre {
+  @apply caret-white bg-[#0d0d0d] text-[#abb2bf] rounded my-12 p-4 border border-black dark:border-neutral-800;
+  font-family: 'JetBrainsMono', monospace;
+
+  *::selection {
+    @apply bg-white/20;
+  }
+
+  code {
+    @apply bg-inherit text-inherit p-0 shadow-none;
+  }
+
+  .hljs-comment,
+  .hljs-quote {
+    @apply text-[#5c6370] italic;
+  }
+
+  .hljs-doctag,
+  .hljs-keyword,
+  .hljs-formula {
+    @apply text-[#c678dd];
+  }
+
+  .hljs-section,
+  .hljs-name,
+  .hljs-selector-tag,
+  .hljs-deletion,
+  .hljs-subst {
+    @apply text-[#e06c75];
+  }
+
+  .hljs-literal {
+    @apply text-[#56b6c2];
+  }
+
+  .hljs-string,
+  .hljs-regexp,
+  .hljs-addition,
+  .hljs-attribute,
+  .hljs-meta .hljs-string {
+    @apply text-[#98c379];
+  }
+
+  .hljs-attr,
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-type,
+  .hljs-selector-class,
+  .hljs-selector-attr,
+  .hljs-selector-pseudo,
+  .hljs-number {
+    @apply text-[#d19a66];
+  }
+
+  .hljs-symbol,
+  .hljs-bullet,
+  .hljs-link,
+  .hljs-meta,
+  .hljs-selector-id,
+  .hljs-title {
+    @apply text-[#61aeee];
+  }
+
+  .hljs-built_in,
+  .hljs-title.class_,
+  .hljs-class .hljs-title {
+    @apply text-[#e6c07b];
+  }
+
+  .hljs-emphasis {
+    font-style: italic;
+  }
+
+  .hljs-strong {
+    font-weight: 700;
+  }
+
+  .hljs-link {
+    text-decoration: underline;
+  }
+}

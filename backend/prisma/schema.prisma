@@ -1,0 +1,88 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id         String @id @default(uuid())
+  username   String
+  email      String @unique
+  image      String?
+  password   String
+  snippets   Snippet[]
+  favorites  UserFavoriteSnippet[]
+  likes      SnippetLike[]
+  comments   Comment[]
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  apiKey     String @unique
+}
+
+model Snippet {
+  id          String @id @default(uuid())
+  title       String @default("Untitled")
+  description String?
+  content     String? @db.Text
+  creator     User @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  creatorId   String
+  technology  Technology? @relation(fields: [technologyId], references: [id], onDelete: Cascade)
+  technologyId String?
+  favorites   UserFavoriteSnippet[]
+  likes       SnippetLike[]
+  comments    Comment[]
+  isPublished Boolean @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([technologyId])
+  @@index([title])
+  @@index([description])
+  @@index([content])
+}
+
+model Technology {
+  id          String @id @default(uuid())
+  name        String
+  image       String
+  snippets    Snippet[]
+  description String?
+}
+
+model UserFavoriteSnippet {
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  snippet   Snippet @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+  snippetId String
+
+  @@id([userId, snippetId])
+}
+
+model SnippetLike {
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  snippet   Snippet @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+  snippetId String
+
+  @@id([userId, snippetId])
+}
+
+model Comment {
+  id         String   @id @default(uuid())
+  content    String   @db.Text
+  snippet    Snippet  @relation(fields: [snippetId], references: [id], onDelete: Cascade)
+  snippetId  String
+  author     User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId   String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
