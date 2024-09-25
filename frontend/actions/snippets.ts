@@ -12,7 +12,7 @@ import { redirect } from 'next/navigation';
 export async function getSnippets(
   technologyId?: string,
   page?: number,
-  limit?: number,
+  limit: number = 10,
   searchTerm?: string,
   orderBy?: string,
 ): Promise<{ data: Snippet[]; total: number }> {
@@ -33,8 +33,35 @@ export async function getSnippets(
     throw new Error(`HTTP error! status: ${response.status}`);
   }
 
-  const data = await response.json();
-  return data;
+  if (!response.body) {
+    return { data: [], total: 0 };
+  }
+
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder('utf-8');
+  let result = '';
+  let dataChunks: Snippet[] = [];
+  let total = 0;
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    result += decoder.decode(value, { stream: true });
+
+    try {
+      const json = JSON.parse(result);
+
+      dataChunks = json.data;
+      total = json.total;
+
+      if (dataChunks.length >= limit) break;
+    } catch (error) {
+      continue;
+    }
+  }
+
+  return { data: dataChunks, total };
 }
 
 export const getSnippetById = async (id: string) => {

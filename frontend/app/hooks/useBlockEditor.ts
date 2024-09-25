@@ -32,8 +32,10 @@ export const useBlockEditor = ({
       content: currentContent,
       onCreate: (ctx) => {
         if (ctx.editor.isEmpty) {
-          ctx.editor.commands.setContent(initialContent);
-          ctx.editor.commands.focus('start', { scrollIntoView: true });
+          queueMicrotask(() => {
+            ctx.editor.commands.setContent(initialContent);
+            ctx.editor.commands.focus('start', { scrollIntoView: true });
+          });
         }
       },
       extensions: [...ExtensionKit()].filter(
