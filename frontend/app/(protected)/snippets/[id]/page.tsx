@@ -2,7 +2,7 @@
 
 import { getSnippetById } from '@/actions/snippets';
 import { BlockEditor } from '@/components/BlockEditor';
-import { initialContent } from '@/lib/data/initialContent';
+import { EditorSkeleton } from '@/components/editor-skeleton';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { Doc as YDoc } from 'yjs';
@@ -26,7 +26,7 @@ const SnippetIdPage = ({ params: { id } }: SnippetIdPageProps) => {
       <div className="w-full flex flex-col overflow-hidden items-center pt-10 pl-16">
         {isLoading ? (
           <div className="h-full w-full flex items-center justify-center">
-            <p>Loading...</p>
+            <EditorSkeleton />
           </div>
         ) : (
           <>

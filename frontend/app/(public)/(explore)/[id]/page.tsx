@@ -8,10 +8,14 @@ import { initialContent } from '@/lib/data/initialContent';
 import CustomBreadcrumbs from '@/components/ui/custom-breadcrumb';
 
 import dynamic from 'next/dynamic';
+import { EditorSkeleton } from '@/components/editor-skeleton';
 
 const PublicBlockEditor = dynamic(
   () => import('@/components/BlockEditor/PublicBlockEditor'),
-  { ssr: false },
+  {
+    ssr: false,
+    loading: () => <p>Carregando editor...</p>,
+  },
 );
 
 const PublicSnippetPage = ({
@@ -28,23 +32,34 @@ const PublicSnippetPage = ({
 
   const ydoc = useMemo(() => new YDoc(), []);
 
+  const editorContent = useMemo(() => {
+    if (currentSnippet?.content) {
+      if (typeof currentSnippet.content === 'string') {
+        try {
+          return currentSnippet.content;
+        } catch (error) {
+          console.error('Error parsing JSON:', error);
+          return currentSnippet.content;
+        }
+      } else if (typeof currentSnippet.content === 'object') {
+        return currentSnippet.content;
+      }
+    }
+    return initialContent;
+  }, [currentSnippet?.content]);
+
+  if (isLoading) {
+    return (
+      <div className="h-full w-full flex ">
+        <EditorSkeleton />
+      </div>
+    );
+  }
+
   return (
     <div className="h-full w-full pt-10 pl-16">
       <CustomBreadcrumbs snippetTitle={currentSnippet?.title} />
-      {isLoading ? (
-        <div className="h-full w-full flex items-center justify-center">
-          <p>Loading...</p>
-        </div>
-      ) : (
-        <>
-          <PublicBlockEditor
-            ydoc={ydoc}
-            currentContent={
-              currentSnippet?.content || JSON.stringify(initialContent)
-            }
-          />
-        </>
-      )}
+      <PublicBlockEditor ydoc={ydoc} currentContent={editorContent} />
     </div>
   );
 };
