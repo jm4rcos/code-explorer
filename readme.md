@@ -18,8 +18,6 @@ Perfect for all your code-saving needs and inevitable coding debates!
 
 - 🎯 **Technology Filters**: Use tags to filter snippets according to technologies like NestJS, TypeScript, JavaScript, and much more.
 
-- 👥 **Community**: Join the community, comment, and rate snippets from other developers.
-
 ## 🔮 **Future Features (Coming when I feel like it)**
 
 - 📢 **Real-time Feedback**: Let others comment and judge your code!
