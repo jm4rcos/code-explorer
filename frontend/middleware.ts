@@ -1,10 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
-import {
-  authRoutes,
-  DEFAULT_LOGIN_REDIRECT,
-  protectedRoutes,
-} from "./lib/routes";
-import { checkUserSession } from "./lib/check-user-session";
+import { NextRequest, NextResponse } from 'next/server';
+
+import { checkUserSession } from './lib/check-user-session';
+import { authRoutes, DEFAULT_LOGIN_REDIRECT, protectedRoutes } from './lib/routes';
 
 export function middleware(req: NextRequest) {
   const { nextUrl } = req;
@@ -16,7 +13,7 @@ export function middleware(req: NextRequest) {
 
   // Verifica se a rota é protegida e o usuário não está logado
   if (isProtectedRoute && !isLoggedIn) {
-    return NextResponse.redirect(new URL("/auth/login", req.url));
+    return NextResponse.redirect(new URL('/auth/login', req.url));
   }
 
   // Verifica se a rota é de autenticação e o usuário está logado
@@ -29,5 +26,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!.+\\.[\\w]+$|_next).*)", "/", "/(api|trpc)(.*)"],
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
 };

@@ -1,14 +1,17 @@
 'use client';
 
-import { useCallback, useMemo, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import { getSnippets } from '@/actions/snippets';
+import { useCallback, useMemo, useRef } from 'react';
 
-import { Technology } from '@/interfaces/technology';
+import { useInfiniteQuery } from '@tanstack/react-query';
+
 import { SnippetList } from '@/components/snippet-list';
-import { Snippet } from '@/interfaces/snippet';
 import { SnippetTypeFilter } from '@/components/snippet-type-filter';
+
+import { Snippet } from '@/interfaces/snippet';
+import { Technology } from '@/interfaces/technology';
+
+import { getSnippets } from '@/actions/snippets';
 
 interface Props {
   selectedTech: Technology | undefined;
@@ -30,15 +33,10 @@ export const ExploreSnippets = ({ selectedTech, searchTerm }: Props) => {
     isFetching,
   } = useInfiniteQuery({
     queryKey: ['snippets', technologyId, searchTerm],
-    queryFn: ({ pageParam = 1 }) =>
-      getSnippets(technologyId as string, pageParam, 40, searchTerm),
+    queryFn: ({ pageParam = 1 }) => getSnippets(technologyId as string, pageParam, 40, searchTerm),
     initialPageParam: 1,
     getNextPageParam: (lastPage: any) => {
-      return lastPage.data.length
-        ? lastPage.total > lastPage.data.length
-          ? lastPage.page + 1
-          : undefined
-        : undefined;
+      return lastPage.data.length ? (lastPage.total > lastPage.data.length ? lastPage.page + 1 : undefined) : undefined;
     },
   });
 
@@ -78,17 +76,11 @@ export const ExploreSnippets = ({ selectedTech, searchTerm }: Props) => {
     <div className="h-full w-full gap-y-4 flex flex-col">
       {snippets && (
         <div className="w-full flex items-center gap-4 justify-between pb-2 lg:px-8 px-8">
-          <span className="w-full xl:text-left text-right text-slate-400 text-sm">
-            Scroll to see more
-          </span>
+          <span className="w-full xl:text-left text-right text-slate-400 text-sm">Scroll to see more</span>
           <SnippetTypeFilter />
         </div>
       )}
-      <SnippetList
-        selectedTech={selectedTech}
-        data={snippets || []}
-        isLoading={isLoading}
-      />
+      <SnippetList selectedTech={selectedTech} data={snippets || []} isLoading={isLoading} />
 
       {hasNextPage && <div ref={lastElementRef} />}
     </div>

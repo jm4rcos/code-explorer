@@ -1,12 +1,8 @@
-import {
-  UseFormRegister,
-  FieldError,
-  Path,
-  FieldValues,
-  UseFormSetValue,
-} from 'react-hook-form';
-import { Switch } from '@/components/ui/switch';
+import { FieldError, FieldValues, Path, UseFormRegister, UseFormSetValue } from 'react-hook-form';
+
 import { Label } from '@/components/ui/label';
+import { Switch } from '@/components/ui/switch';
+
 import { UpdateSnippetFormData } from '@/app/hooks/use-update-snippet-form';
 
 interface SwitchFieldProps<TFieldValues extends FieldValues> {
@@ -29,12 +25,7 @@ export const SwitchField = <TFieldValues extends FieldValues>({
   return (
     <div className="flex pt-2 items-center justify-between w-full space-x-2">
       <Label htmlFor={name}>{label}</Label>
-      <Switch
-        id={name}
-        {...register(name)}
-        checked={defaultValue}
-        onCheckedChange={setValue}
-      />
+      <Switch id={name} {...register(name)} checked={defaultValue} onCheckedChange={setValue} />
       {error && <span className="text-danger text-sm">{error.message}</span>}
     </div>
   );

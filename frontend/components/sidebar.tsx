@@ -1,13 +1,15 @@
 'use client';
 
-import { Settings2 } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
+
+import { Settings2 } from 'lucide-react';
+
 import { cn } from '../lib/utils';
-import { ExploreIcon } from './icons/explore-icon';
-import { SnippetIcon } from './icons/snippet-icon';
-import { HeartIcon } from './icons/heart-icon';
 import { CommunityIcon } from './icons/community-icon';
+import { ExploreIcon } from './icons/explore-icon';
 import { FeedbackIcon } from './icons/feedback-icon';
+import { HeartIcon } from './icons/heart-icon';
+import { SnippetIcon } from './icons/snippet-icon';
 import { CustomButton } from './ui/custom-button';
 
 export const Sidebar = () => {
@@ -66,15 +68,8 @@ export const Sidebar = () => {
             )}
             variant="ghost"
           >
-            <Icon
-              className={pathname === route.href ? 'text-title' : 'text-text'}
-            />
-            <p
-              className={cn(
-                'truncate md:max-w-[120px] max-w-[180px]',
-                pathname === route.href && 'text-title',
-              )}
-            >
+            <Icon className={pathname === route.href ? 'text-title' : 'text-text'} />
+            <p className={cn('truncate md:max-w-[120px] max-w-[180px]', pathname === route.href && 'text-title')}>
               {route.label}
             </p>
           </CustomButton>

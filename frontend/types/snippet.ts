@@ -1,5 +1,6 @@
-import { technologySchema } from '@/app/schemas/technology-schema';
 import { infer as ZodInfer } from 'zod';
+
+import { technologySchema } from '@/app/schemas/technology-schema';
 
 export interface IUpdateSnippet {
   content?: string | null;

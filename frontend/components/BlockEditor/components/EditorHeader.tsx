@@ -1,6 +1,7 @@
-import { EditorInfo } from "./EditorInfo";
-import { Editor } from "@tiptap/core";
-import { useEditorState } from "@tiptap/react";
+import { Editor } from '@tiptap/core';
+import { useEditorState } from '@tiptap/react';
+
+import { EditorInfo } from './EditorInfo';
 
 export type EditorHeaderProps = {
   editor: Editor;

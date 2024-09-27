@@ -1,14 +1,16 @@
 'use client';
 
-import { z } from 'zod';
 import { useRouter } from 'next/navigation';
+
+import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import toast from 'react-hot-toast';
+import { z } from 'zod';
+
+import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes';
 
 import { LoginSchema } from '../schemas/login-schema';
-import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes';
-import toast from 'react-hot-toast';
 
 export type LoginFormData = z.infer<typeof LoginSchema>;
 

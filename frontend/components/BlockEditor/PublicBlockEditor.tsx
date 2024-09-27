@@ -1,20 +1,14 @@
 'use client';
 
-import { EditorContent } from '@tiptap/react';
 import { useRef } from 'react';
 
+import * as Y from 'yjs';
+import { EditorContent } from '@tiptap/react';
+
+import { useBlockEditor } from '@/app/hooks/useBlockEditor';
 import '@/styles/index.css';
 
-import * as Y from 'yjs';
-import { useBlockEditor } from '@/app/hooks/useBlockEditor';
-
-export const PublicBlockEditor = ({
-  ydoc,
-  currentContent,
-}: {
-  ydoc: Y.Doc;
-  currentContent: string;
-}) => {
+export const PublicBlockEditor = ({ ydoc, currentContent }: { ydoc: Y.Doc; currentContent: string }) => {
   const menuContainerRef = useRef(null);
 
   const { editor } = useBlockEditor({

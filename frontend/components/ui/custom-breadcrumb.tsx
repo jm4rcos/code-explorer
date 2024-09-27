@@ -1,8 +1,9 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import React from 'react';
+
 import { ChevronRight, Home } from 'lucide-react';
 
 interface BreadcrumbItem {
@@ -15,10 +16,7 @@ interface CustomBreadcrumbsProps {
   snippetTitle?: string;
 }
 
-const CustomBreadcrumbs: React.FC<CustomBreadcrumbsProps> = ({
-  homeLabel = 'Início',
-  snippetTitle,
-}) => {
+const CustomBreadcrumbs: React.FC<CustomBreadcrumbsProps> = ({ homeLabel = 'Início', snippetTitle }) => {
   const pathname = usePathname();
   const pathSegments = pathname.split('/').filter(Boolean);
 
@@ -39,10 +37,7 @@ const CustomBreadcrumbs: React.FC<CustomBreadcrumbsProps> = ({
   ];
 
   return (
-    <nav
-      aria-label="Breadcrumbs"
-      className="flex items-center space-x-1 text-sm text-gray-500"
-    >
+    <nav aria-label="Breadcrumbs" className="flex items-center space-x-1 text-sm text-gray-500">
       {breadcrumbs.map((breadcrumb, index) => (
         <React.Fragment key={breadcrumb.href}>
           {index > 0 && <ChevronRight className="h-4 w-4" />}

@@ -1,17 +1,21 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
-import './globals.css';
-import { ThemeProvider } from '../components/theme-provider';
+
 import { getServerSession } from 'next-auth';
-import SessionProvider from '../components/session-provider';
-import { QueryProvider } from '@/providers/query-provider';
 import { Toaster } from 'react-hot-toast';
+
+import { QueryProvider } from '@/providers/query-provider';
+
+import SessionProvider from '../components/session-provider';
+import { ThemeProvider } from '../components/theme-provider';
+import './globals.css';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
   variable: '--font-geist-sans',
   weight: '100 900',
 });
+
 const geistMono = localFont({
   src: './fonts/GeistMonoVF.woff',
   variable: '--font-geist-mono',
@@ -32,9 +36,7 @@ export default async function RootLayout({
 
   return (
     <html suppressHydrationWarning={true} lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <QueryProvider>
           <SessionProvider session={session}>
             <ThemeProvider attribute="class" defaultTheme="dark">

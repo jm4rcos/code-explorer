@@ -1,4 +1,5 @@
 import { RatIcon, ScanEyeIcon, ThumbsUpIcon } from 'lucide-react';
+
 import { HeartIcon } from './icons/heart-icon';
 
 export const SnippetCard = () => {

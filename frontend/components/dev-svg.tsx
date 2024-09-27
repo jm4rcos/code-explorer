@@ -1,11 +1,5 @@
 export const DevSVG = () => (
-  <svg
-    width="305"
-    height="371"
-    viewBox="0 0 305 371"
-    fill="none"
-    xmlns="http://www.w3.org/2000/svg"
-  >
+  <svg width="305" height="371" viewBox="0 0 305 371" fill="none" xmlns="http://www.w3.org/2000/svg">
     <path
       d="M239.868 31.2312C240.57 31.2693 241.12 31.2489 241.716 31.6743C242.037 32.2884 241.873 32.7956 241.752 33.44C241.095 33.4389 240.705 33.3931 240.105 33.1199C239.749 32.424 239.845 32.0027 239.868 31.2312Z"
       fill="#149FF0"

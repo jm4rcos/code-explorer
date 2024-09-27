@@ -1,7 +1,8 @@
 import { Editor } from '@tiptap/core';
 import { useEditorState } from '@tiptap/react';
-import { Toolbar } from './ui/Toolbar';
+
 import { Icon } from './ui/Icon';
+import { Toolbar } from './ui/Toolbar';
 
 export type EditorHeaderProps = {
   isSidebarOpen?: boolean;
@@ -9,11 +10,7 @@ export type EditorHeaderProps = {
   editor: Editor;
 };
 
-export const EditorHeader = ({
-  editor,
-  isSidebarOpen,
-  toggleSidebar,
-}: EditorHeaderProps) => {
+export const EditorHeader = ({ editor, isSidebarOpen, toggleSidebar }: EditorHeaderProps) => {
   const { characters, words } = useEditorState({
     editor,
     selector: (ctx): { characters: number; words: number } => {

@@ -1,15 +1,18 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import qs from 'query-string';
 
-import { Technology } from '@/interfaces/technology';
-import { cn } from '@/lib/utils';
 import { CustomButton } from '@/components/ui/custom-button';
 import { Skeleton } from '@/components/ui/skeleton';
+
+import { Technology } from '@/interfaces/technology';
+
+import { cn } from '@/lib/utils';
 
 interface Props {
   technologies: Technology[] | undefined;
@@ -28,9 +31,7 @@ const TechList = ({ technologies, isLoading, onSelectTech }: Props) => {
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
-  const [selectedTech, setSelectedTech] = useState<string | undefined>(
-    undefined,
-  );
+  const [selectedTech, setSelectedTech] = useState<string | undefined>(undefined);
 
   const checkForOverflow = useCallback(() => {
     if (scrollRef.current) {
@@ -123,18 +124,13 @@ const TechList = ({ technologies, isLoading, onSelectTech }: Props) => {
               >
                 <Image
                   priority
-                  src={
-                    tech.image ||
-                    'https://www.google.com/s2/favicons?sz=64&domain_url=www.wikipedia.org/'
-                  }
+                  src={tech.image || 'https://www.google.com/s2/favicons?sz=64&domain_url=www.wikipedia.org/'}
                   alt={tech.name || 'tech'}
                   width={20}
                   height={20}
                 />
 
-                <span className={cn(selectedTech === tech.id && 'text-black')}>
-                  {tech.name}
-                </span>
+                <span className={cn(selectedTech === tech.id && 'text-black')}>{tech.name}</span>
               </CustomButton>
             ))}
         </div>

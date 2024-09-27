@@ -1,24 +1,20 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  updateSnippetContentSchema,
-  UpdateSnippetSchema,
-} from '../schemas/update-snippet-schema';
-import { z } from 'zod';
-import { updateSnippet } from '@/actions/snippets';
 import { useSession } from 'next-auth/react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+
 import { Snippet } from '@/interfaces/snippet';
+
+import { updateSnippet } from '@/actions/snippets';
+
+import { updateSnippetContentSchema, UpdateSnippetSchema } from '../schemas/update-snippet-schema';
 
 export type UpdateSnippetFormData = z.infer<typeof UpdateSnippetSchema>;
 export type UpdateSnippetContent = z.infer<typeof updateSnippetContentSchema>;
 
-export const useUpdateSnippetForm = ({
-  initialData,
-}: {
-  initialData: Snippet;
-}) => {
+export const useUpdateSnippetForm = ({ initialData }: { initialData: Snippet }) => {
   const { data: session } = useSession();
 
   const {
@@ -38,11 +34,9 @@ export const useUpdateSnippetForm = ({
         return;
       }
 
-      await updateSnippet(initialData.id, session?.user.accessToken, data).then(
-        () => {
-          window.location.reload();
-        },
-      );
+      await updateSnippet(initialData.id, session?.user.accessToken, data).then(() => {
+        window.location.reload();
+      });
     } catch (error) {
       console.error('An error occurred:', error);
     }

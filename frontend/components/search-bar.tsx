@@ -1,8 +1,11 @@
-import { InputField } from '@/components/input-field';
 import React from 'react';
-import { useForm } from 'react-hook-form';
-import { CustomButton } from './ui/custom-button';
+
 import { SearchIcon } from 'lucide-react';
+import { useForm } from 'react-hook-form';
+
+import { InputField } from '@/components/input-field';
+
+import { CustomButton } from './ui/custom-button';
 
 interface SearchBarProps {
   onSearch: (searchTerm: string) => void;
@@ -16,10 +19,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(handleFormSubmit)}
-      className="flex w-full gap-2 px-8 justify-center"
-    >
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="flex w-full gap-2 px-8 justify-center">
       <InputField
         placeholder="Search technologies, languages, frameworks..."
         name="search"

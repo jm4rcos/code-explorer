@@ -1,12 +1,14 @@
 'use client';
 
-import React from 'react';
 import Link from 'next/link';
-import { ModeToggle } from './mode-toggle';
 import { usePathname } from 'next/navigation';
-import { useSession, signOut } from 'next-auth/react';
-import { CustomButton } from './ui/custom-button';
+import React from 'react';
+
+import { signOut, useSession } from 'next-auth/react';
+
 import { Logo } from './logo';
+import { ModeToggle } from './mode-toggle';
+import { CustomButton } from './ui/custom-button';
 
 export const Navbar = () => {
   const pathname = usePathname();
@@ -20,9 +22,7 @@ export const Navbar = () => {
           <Logo />
         </Link>
         <div className="flex items-center gap-2">
-          <p className="text-title text-base mr-4">
-            {session.user?.username || session.user.email}
-          </p>
+          <p className="text-title text-base mr-4">{session.user?.username || session.user.email}</p>
           <CustomButton
             variant="outline"
             onClick={() =>

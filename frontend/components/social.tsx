@@ -1,10 +1,12 @@
 'use client';
 
-import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes';
 import { signIn } from 'next-auth/react';
-import { CustomButton } from './ui/custom-button';
-import { GoogleIcon } from './icons/google-icon';
+
+import { DEFAULT_LOGIN_REDIRECT } from '@/lib/routes';
+
 import { GithubIcon } from './icons/github-icon';
+import { GoogleIcon } from './icons/google-icon';
+import { CustomButton } from './ui/custom-button';
 
 export const Social = () => {
   const onClick = (provider: 'google') => {

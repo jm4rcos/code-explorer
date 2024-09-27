@@ -1,8 +1,9 @@
-import { Button } from "@/components/ui/Button";
-import { Icon } from "@/components/ui/Icon";
-import { Surface } from "@/components/ui/Surface";
-import { Toggle } from "@/components/ui/Toggle";
-import { useState, useCallback, useMemo } from "react";
+import { useCallback, useMemo, useState } from 'react';
+
+import { Button } from '@/components/ui/Button';
+import { Icon } from '@/components/ui/Icon';
+import { Surface } from '@/components/ui/Surface';
+import { Toggle } from '@/components/ui/Toggle';
 
 export type LinkEditorPanelProps = {
   initialUrl?: string;
@@ -10,15 +11,9 @@ export type LinkEditorPanelProps = {
   onSetLink: (url: string, openInNewTab?: boolean) => void;
 };
 
-export const useLinkEditorState = ({
-  initialUrl,
-  initialOpenInNewTab,
-  onSetLink,
-}: LinkEditorPanelProps) => {
-  const [url, setUrl] = useState(initialUrl || "");
-  const [openInNewTab, setOpenInNewTab] = useState(
-    initialOpenInNewTab || false
-  );
+export const useLinkEditorState = ({ initialUrl, initialOpenInNewTab, onSetLink }: LinkEditorPanelProps) => {
+  const [url, setUrl] = useState(initialUrl || '');
+  const [openInNewTab, setOpenInNewTab] = useState(initialOpenInNewTab || false);
 
   const onChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setUrl(event.target.value);
@@ -33,7 +28,7 @@ export const useLinkEditorState = ({
         onSetLink(url, openInNewTab);
       }
     },
-    [url, isValidUrl, openInNewTab, onSetLink]
+    [url, isValidUrl, openInNewTab, onSetLink],
   );
 
   return {
@@ -47,11 +42,7 @@ export const useLinkEditorState = ({
   };
 };
 
-export const LinkEditorPanel = ({
-  onSetLink,
-  initialOpenInNewTab,
-  initialUrl,
-}: LinkEditorPanelProps) => {
+export const LinkEditorPanel = ({ onSetLink, initialOpenInNewTab, initialUrl }: LinkEditorPanelProps) => {
   const state = useLinkEditorState({
     onSetLink,
     initialOpenInNewTab,
@@ -78,10 +69,7 @@ export const LinkEditorPanel = ({
       <div className="mt-3">
         <label className="flex items-center justify-start gap-2 text-sm font-semibold cursor-pointer select-none text-neutral-500 dark:text-neutral-400">
           Open in new tab
-          <Toggle
-            active={state.openInNewTab}
-            onChange={state.setOpenInNewTab}
-          />
+          <Toggle active={state.openInNewTab} onChange={state.setOpenInNewTab} />
         </label>
       </div>
     </Surface>

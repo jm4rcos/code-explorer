@@ -1,10 +1,12 @@
 'use client';
 
-import qs from 'query-string';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 
-import { CustomButton } from './ui/custom-button';
+import qs from 'query-string';
+
 import { cn } from '@/lib/utils';
+
+import { CustomButton } from './ui/custom-button';
 
 const buttons = [
   { label: 'Newest', value: 'newest' },
@@ -23,10 +25,7 @@ export const SnippetTypeFilter = () => {
       router.push(url);
       return;
     }
-    const url = qs.stringifyUrl(
-      { url: pathname, query: { orderBy } },
-      { skipNull: true, skipEmptyString: true },
-    );
+    const url = qs.stringifyUrl({ url: pathname, query: { orderBy } }, { skipNull: true, skipEmptyString: true });
     router.push(url);
   };
 
@@ -37,10 +36,7 @@ export const SnippetTypeFilter = () => {
           disabled
           key={button.value}
           type="button"
-          className={cn(
-            'text-sm bg-muted hover:bg-[var(--secondary50)]',
-            params === button.value && 'bg-foreground',
-          )}
+          className={cn('text-sm bg-muted hover:bg-[var(--secondary50)]', params === button.value && 'bg-foreground')}
           size="sm"
           variant="ghost"
           onClick={() => handleSelectType(button.value)}

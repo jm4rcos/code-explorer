@@ -1,21 +1,22 @@
 'use client';
 
-import { CreateSnippetFormData } from './_components/create-snippet-modal';
-import { Code2Icon } from 'lucide-react';
-import { createSnippet, getUserSnippets } from '@/actions/snippets';
-import { useSession } from 'next-auth/react';
 import { redirect } from 'next/navigation';
-import { useQuery } from '@tanstack/react-query';
 import { useTransition } from 'react';
-import { CustomButton } from '@/components/ui/custom-button';
-import { SnippetTypeFilter } from '@/components/snippet-type-filter';
+
+import { useQuery } from '@tanstack/react-query';
+import { Code2Icon } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+
 import { SnippetList } from '@/components/snippet-list';
+import { CustomButton } from '@/components/ui/custom-button';
+
+import { createSnippet, getUserSnippets } from '@/actions/snippets';
+
+import { CreateSnippetFormData } from './_components/create-snippet-modal';
 
 const Page = () => {
   const { data: session } = useSession();
   const [isPending, startTransition] = useTransition();
-
-  console.log(session);
 
   if (!session) {
     return redirect('/auth/login');

@@ -1,11 +1,8 @@
-import { cn } from '@/lib/utils';
 import React from 'react';
-import {
-  UseFormRegister,
-  FieldError,
-  Path,
-  FieldValues,
-} from 'react-hook-form';
+
+import { FieldError, FieldValues, Path, UseFormRegister } from 'react-hook-form';
+
+import { cn } from '@/lib/utils';
 
 interface InputFieldProps<TFieldValues extends FieldValues> {
   placeholder: string;

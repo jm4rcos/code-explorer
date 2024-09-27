@@ -1,6 +1,6 @@
-import "./MenuItem.scss";
+import remixiconUrl from 'remixicon/fonts/remixicon.symbol.svg';
 
-import remixiconUrl from "remixicon/fonts/remixicon.symbol.svg";
+import './MenuItem.scss';
 
 export default function MenuItem({
   icon,
@@ -14,11 +14,7 @@ export default function MenuItem({
   isActive?: (() => boolean) | null;
 }) {
   return (
-    <button
-      className={`menu-item${isActive && isActive() ? " is-active" : ""}`}
-      onClick={action}
-      title={title}
-    >
+    <button className={`menu-item${isActive && isActive() ? ' is-active' : ''}`} onClick={action} title={title}>
       <svg className="remix">
         <use xlinkHref={`${remixiconUrl}#ri-${icon}`} />
       </svg>

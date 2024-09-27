@@ -1,10 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import { CustomButton } from '@/components/ui/custom-button';
-import { Snippet } from '@/interfaces/snippet';
+
 import { SettingsIcon } from 'lucide-react';
+
 import SnippetSettingsModal from '@/components/modals/snippet-settings-modal';
+import { CustomButton } from '@/components/ui/custom-button';
+
+import { Snippet } from '@/interfaces/snippet';
 
 interface EditSnippetInfoProps {
   data: Snippet;

@@ -1,22 +1,22 @@
 'use client';
 
-import { getSnippetById } from '@/actions/snippets';
-import { useQuery } from '@tanstack/react-query';
+import dynamic from 'next/dynamic';
 import { useMemo } from 'react';
+
+import { useQuery } from '@tanstack/react-query';
 import { Doc as YDoc } from 'yjs';
-import { initialContent } from '@/lib/data/initialContent';
+
+import { EditorSkeleton } from '@/components/editor-skeleton';
 import CustomBreadcrumbs from '@/components/ui/custom-breadcrumb';
 
-import dynamic from 'next/dynamic';
-import { EditorSkeleton } from '@/components/editor-skeleton';
+import { initialContent } from '@/lib/data/initialContent';
 
-const PublicBlockEditor = dynamic(
-  () => import('@/components/BlockEditor/PublicBlockEditor'),
-  {
-    ssr: false,
-    loading: () => <p>Carregando editor...</p>,
-  },
-);
+import { getSnippetById } from '@/actions/snippets';
+
+const PublicBlockEditor = dynamic(() => import('@/components/BlockEditor/PublicBlockEditor'), {
+  ssr: false,
+  loading: () => <p>Carregando editor...</p>,
+});
 
 const PublicSnippetPage = ({
   params: { id },

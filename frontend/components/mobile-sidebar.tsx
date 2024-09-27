@@ -1,12 +1,15 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 import { Menu } from 'lucide-react';
+
 import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { Sidebar } from './sidebar';
+
 import { useMobileSidebar } from '@/app/hooks/use-mobile-sidebar';
+
+import { Sidebar } from './sidebar';
 import { CustomButton } from './ui/custom-button';
 
 export const MobileSidebar = () => {
@@ -31,12 +34,7 @@ export const MobileSidebar = () => {
 
   return (
     <>
-      <CustomButton
-        onClick={onOpen}
-        className="block md:hidden mr-2"
-        variant="ghost"
-        size="sm"
-      >
+      <CustomButton onClick={onOpen} className="block md:hidden mr-2" variant="ghost" size="sm">
         <Menu className="h-4 w-4" />
       </CustomButton>
       <Sheet open={isOpen} onOpenChange={onClose}>

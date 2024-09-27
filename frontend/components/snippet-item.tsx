@@ -1,13 +1,11 @@
-import { Snippet } from '@/interfaces/snippet';
-import {
-  MessageCircleIcon,
-  ScanEyeIcon,
-  ThumbsUpIcon,
-  User2Icon,
-} from 'lucide-react';
-import { timeAgo } from './time-ago';
-import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
+
+import { MessageCircleIcon, ScanEyeIcon, ThumbsUpIcon, User2Icon } from 'lucide-react';
+
+import { Snippet } from '@/interfaces/snippet';
+
+import { timeAgo } from './time-ago';
 
 interface SnippetItemProps {
   snippet: Snippet;
@@ -20,10 +18,8 @@ export const SnippetItem = ({ snippet }: SnippetItemProps) => {
   const handleSnippetClick = () => {
     let redirectPath;
     if (pathname.startsWith('/snippets')) {
-      // Se estamos na página de snippets, usamos a rota protegida
       redirectPath = `/snippets/${snippet.id}`;
     } else {
-      // Caso contrário, usamos a rota não protegida
       redirectPath = `/${snippet.id}`;
     }
     router.push(redirectPath);
@@ -37,12 +33,7 @@ export const SnippetItem = ({ snippet }: SnippetItemProps) => {
       <div className="flex items-center justify-between">
         {snippet.technology?.name ? (
           <div className="flex items-center space-x-2">
-            <Image
-              src={snippet.technology.image}
-              alt={snippet.technology.name}
-              width={16}
-              height={16}
-            />
+            <Image src={snippet.technology.image} alt={snippet.technology.name} width={16} height={16} />
             <p className="text-base">{snippet.technology?.name}</p>
           </div>
         ) : (

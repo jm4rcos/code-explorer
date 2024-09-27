@@ -1,5 +1,6 @@
-import { LoginSchema } from './app/schemas/login-schema';
 import Credentials from 'next-auth/providers/credentials';
+
+import { LoginSchema } from './app/schemas/login-schema';
 
 export default {
   providers: [
@@ -16,17 +17,14 @@ export default {
 
         const { email, password } = validatedFields.data;
         try {
-          const res = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
-            {
-              method: 'POST',
-              body: JSON.stringify({
-                email,
-                password,
-              }),
-              headers: { 'Content-Type': 'application/json' },
-            },
-          );
+          const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
+            method: 'POST',
+            body: JSON.stringify({
+              email,
+              password,
+            }),
+            headers: { 'Content-Type': 'application/json' },
+          });
 
           if (!res.ok) {
             return null;

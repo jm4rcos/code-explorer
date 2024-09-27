@@ -1,7 +1,9 @@
-import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { RegisterFormData, RegisterSchema } from '../schemas/register-schema';
+import { useForm } from 'react-hook-form';
+
 import { signUp } from '@/actions/user-actions';
+
+import { RegisterFormData, RegisterSchema } from '../schemas/register-schema';
 
 export const useRegisterForm = () => {
   const {

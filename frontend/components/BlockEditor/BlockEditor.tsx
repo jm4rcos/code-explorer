@@ -1,31 +1,29 @@
 'use client';
 
-import { EditorContent } from '@tiptap/react';
 import { useRef, useState } from 'react';
-import '@/styles/index.css';
+
 import * as Y from 'yjs';
+import { EditorContent } from '@tiptap/react';
+import { CheckIcon } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import toast from 'react-hot-toast';
+
+import { initialContent } from '@/lib/data/initialContent';
+import { cn } from '@/lib/utils';
+
+import { updateSnippetContent } from '@/actions/snippets';
+import { EditSnippetInfo } from '@/app/(protected)/snippets/_components/edit-snippet-info';
+import { UpdateSnippetContent } from '@/app/hooks/use-update-snippet-form';
 import { useBlockEditor } from '@/app/hooks/useBlockEditor';
-import { LinkMenu, TextMenu } from '../menus';
+import ImageBlockMenu from '@/extensions/ImageBlock/components/ImageBlockMenu';
 import { ColumnsMenu } from '@/extensions/MultiColumn/menus';
 import { TableColumnMenu, TableRowMenu } from '@/extensions/Table/menus';
-import ImageBlockMenu from '@/extensions/ImageBlock/components/ImageBlockMenu';
-import { initialContent } from '@/lib/data/initialContent';
-import { EditSnippetInfo } from '@/app/(protected)/snippets/_components/edit-snippet-info';
-import { CustomButton } from '../ui/custom-button';
-import { CheckIcon } from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { useSession } from 'next-auth/react';
-import { updateSnippetContent } from '@/actions/snippets';
-import toast from 'react-hot-toast';
-import { UpdateSnippetContent } from '@/app/hooks/use-update-snippet-form';
+import '@/styles/index.css';
 
-export const BlockEditor = ({
-  ydoc,
-  snippet,
-}: {
-  ydoc: Y.Doc;
-  snippet: any;
-}) => {
+import { LinkMenu, TextMenu } from '../menus';
+import { CustomButton } from '../ui/custom-button';
+
+export const BlockEditor = ({ ydoc, snippet }: { ydoc: Y.Doc; snippet: any }) => {
   const menuContainerRef = useRef(null);
 
   const { data: session } = useSession();
@@ -83,15 +81,9 @@ export const BlockEditor = ({
           </CustomButton>
         )}
       </div>
-      <div
-        className="flex flex-col w-full gap-4 items-center h-full relative"
-        ref={menuContainerRef}
-      >
+      <div className="flex flex-col w-full gap-4 items-center h-full relative" ref={menuContainerRef}>
         <TextMenu editor={editor} />
-        <EditorContent
-          editor={editor}
-          className="flex-1 w-full overflow-y-auto "
-        />
+        <EditorContent editor={editor} className="flex-1 w-full overflow-y-auto " />
         <LinkMenu editor={editor} appendTo={menuContainerRef} />
         <ColumnsMenu editor={editor} appendTo={menuContainerRef} />
         <TableRowMenu editor={editor} appendTo={menuContainerRef} />

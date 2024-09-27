@@ -1,11 +1,14 @@
 'use client';
 
-import { getSnippetById } from '@/actions/snippets';
+import { useMemo } from 'react';
+
+import { useQuery } from '@tanstack/react-query';
+import { Doc as YDoc } from 'yjs';
+
 import { BlockEditor } from '@/components/BlockEditor';
 import { EditorSkeleton } from '@/components/editor-skeleton';
-import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
-import { Doc as YDoc } from 'yjs';
+
+import { getSnippetById } from '@/actions/snippets';
 
 interface SnippetIdPageProps {
   params: {

@@ -1,23 +1,24 @@
-"use client";
+'use client';
 
-import { Editor as CoreEditor } from "@tiptap/core";
-import { memo } from "react";
-import { cn } from "../../lib/utils";
-import { useEditorState } from "@tiptap/react";
+import { memo } from 'react';
+
+import { Editor as CoreEditor } from '@tiptap/core';
+import { useEditorState } from '@tiptap/react';
+
+import { cn } from '../../lib/utils';
 
 export type TableOfContentsProps = {
   editor: CoreEditor;
   onItemClick?: () => void;
 };
 
-export const TableOfContents = memo(
-  ({ editor, onItemClick }: TableOfContentsProps) => {
-    return (
-      <>
-        <div className="mb-2 text-xs font-semibold uppercase text-neutral-500 dark:text-neutral-400">
-          Table of contents
-        </div>
-        {/* {content.length > 0 ? (
+export const TableOfContents = memo(({ editor, onItemClick }: TableOfContentsProps) => {
+  return (
+    <>
+      <div className="mb-2 text-xs font-semibold uppercase text-neutral-500 dark:text-neutral-400">
+        Table of contents
+      </div>
+      {/* {content.length > 0 ? (
         <div className="flex flex-col gap-1">
           {content.map((item: any) => (
             <a
@@ -37,9 +38,8 @@ export const TableOfContents = memo(
       ) : (
         <div className="text-sm text-neutral-500">Start adding headlines to your document …</div>
       )} */}
-      </>
-    );
-  }
-);
+    </>
+  );
+});
 
-TableOfContents.displayName = "TableOfContents";
+TableOfContents.displayName = 'TableOfContents';

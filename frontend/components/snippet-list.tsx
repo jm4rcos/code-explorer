@@ -1,12 +1,13 @@
+import Image from 'next/image';
+import { usePathname, useSearchParams } from 'next/navigation';
+import { Fragment } from 'react';
+
 import { Snippet } from '@/interfaces/snippet';
+import { Technology } from '@/interfaces/technology';
+
 import { SnippetItem } from './snippet-item';
 import { Separator } from './ui/separator';
-import { SnippetTypeFilter } from './snippet-type-filter';
 import { Skeleton } from './ui/skeleton';
-import { Fragment } from 'react';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { Technology } from '@/interfaces/technology';
-import Image from 'next/image';
 
 interface SnippetListProps {
   data: Snippet[];
@@ -14,11 +15,7 @@ interface SnippetListProps {
   selectedTech?: Technology | null;
 }
 
-export const SnippetList = ({
-  data,
-  isLoading,
-  selectedTech,
-}: SnippetListProps) => {
+export const SnippetList = ({ data, isLoading, selectedTech }: SnippetListProps) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
@@ -34,8 +31,7 @@ export const SnippetList = ({
     );
   }
 
-  const publicSnippets =
-    !pathname.startsWith('/snippets') && searchParams.get('technologyId');
+  const publicSnippets = !pathname.startsWith('/snippets') && searchParams.get('technologyId');
 
   return (
     <>
@@ -45,19 +41,12 @@ export const SnippetList = ({
             <div className="w-full flex items-center pb-2 lg:px-8 px-8">
               <div className="flex items-center space-x-2">
                 {selectedTech?.image && (
-                  <Image
-                    src={selectedTech?.image}
-                    alt={selectedTech?.name}
-                    width={32}
-                    height={32}
-                  />
+                  <Image src={selectedTech?.image} alt={selectedTech?.name} width={32} height={32} />
                 )}
                 <h3 className="text-2xl">{selectedTech?.name}</h3>
               </div>
             </div>
-            {selectedTech?.description && (
-              <p className="lg:px-8 px-8">{selectedTech?.description}</p>
-            )}
+            {selectedTech?.description && <p className="lg:px-8 px-8">{selectedTech?.description}</p>}
           </>
         )}
       </div>

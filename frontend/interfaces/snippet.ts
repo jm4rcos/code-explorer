@@ -1,6 +1,6 @@
-import { SnippetComment } from "./comment";
-import { Technology } from "./technology";
-import { User } from "./user";
+import { SnippetComment } from './comment';
+import { Technology } from './technology';
+import { User } from './user';
 
 export interface Snippet {
   id: string;
