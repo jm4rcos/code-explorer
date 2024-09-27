@@ -1,9 +1,8 @@
 import { Controller, Get, Req, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from './auth/jwt-guard';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { JwtAuthGuard } from './auth/jwt-guard';
 
 @Controller()
-// @ApiBearerAuth('JWT-auth') // Aplicar aqui se for usar em todas rotas
 export class AppController {
   constructor() {}
 

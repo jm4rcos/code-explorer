@@ -4,7 +4,7 @@ module.exports = {
   trailingComma: 'all',
   plugins: [require.resolve('@trivago/prettier-plugin-sort-imports')],
   importOrder: [
-    '^(react|next)(/.*)?$',
+    '^(react|next)(/.frontend/*)?$',
     '<THIRD_PARTY_MODULES>',
     '^@/components/(.*)$',
     '^@/hooks/(.*)$',
