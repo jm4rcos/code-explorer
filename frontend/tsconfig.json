@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext"],
+    "types": ["jest"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -28,5 +29,8 @@
     ".next/types/**/*.ts",
     "app/(protected)/snippets/liveblock-old-layout.tsx"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "ts-node": {
+    "moduleTypes": { ".": "cjs" }
+  }
 }
