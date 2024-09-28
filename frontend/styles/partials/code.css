@@ -10,11 +10,10 @@
   }
 
   pre {
-    padding-top: 3rem;
     background: #282c34;
     border-radius: 0.5rem;
     color: #abb2bf;
-    font-family: "JetBrainsMono", monospace;
+    font-family: 'JetBrainsMono', monospace;
     margin: 1.5rem 0;
     overflow-x: auto;
 

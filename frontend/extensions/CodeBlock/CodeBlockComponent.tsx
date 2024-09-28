@@ -22,7 +22,6 @@ const CodeBlockComponent: React.FC<CodeBlockComponentProps> = ({
       const pos = getPos();
       const selectedNode = editor.state.doc.nodeAt(pos);
       if (selectedNode) {
-        // Extract only the text content from the code block
         const codeContent = selectedNode.textContent;
 
         navigator.clipboard
