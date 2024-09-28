@@ -16,7 +16,7 @@ export class SnippetResponseDto {
   content: string;
 
   @ApiProperty()
-  creator: UserResponseDto;
+  creator?: UserResponseDto;
 
   @ApiProperty({ required: false })
   technology?: TechnologyDto;

@@ -1,63 +1,83 @@
 import { Injectable } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { randomUUID } from 'crypto';
 import { PrismaService } from 'src/database/prisma.service';
-import { SnippetResponseDto } from 'src/snippets/dto/snippet-response.dto';
 import { CreateSnippetDto } from 'src/snippets/dto/create-snippet.dto';
+import { SnippetResponseDto } from 'src/snippets/dto/snippet-response.dto';
 import { UpdateSnippetContentDto } from 'src/snippets/dto/update-snippet-content.dto';
-import { Prisma } from '@prisma/client';
 
 @Injectable()
 export class SnippetRepository {
   constructor(private readonly prisma: PrismaService) {}
 
-  async getAllSnippets(params: {
+  private buildWhereClause({
+    technologyId,
+    searchTerm,
+    isPublished = true,
+  }: {
+    technologyId?: string;
+    searchTerm?: string;
+    isPublished?: boolean;
+  }): Prisma.SnippetWhereInput {
+    const whereClause: Prisma.SnippetWhereInput = {
+      isPublished,
+      ...(technologyId && { technologyId }),
+    };
+
+    if (searchTerm) {
+      whereClause.OR = [
+        { title: { contains: searchTerm, mode: 'insensitive' } },
+        { description: { contains: searchTerm, mode: 'insensitive' } },
+        { content: { contains: searchTerm, mode: 'insensitive' } },
+        {
+          technology: {
+            name: { contains: searchTerm, mode: 'insensitive' },
+          },
+        },
+      ];
+    }
+
+    return whereClause;
+  }
+
+  private snippetIncludes(): Prisma.SnippetInclude {
+    return {
+      creator: {
+        select: {
+          id: true,
+          username: true,
+          image: true,
+          email: true,
+        },
+      },
+      technology: {
+        select: {
+          id: true,
+          name: true,
+          image: true,
+          description: true,
+        },
+      },
+    };
+  }
+
+  async getAllSnippets({
+    technologyId,
+    take = 10,
+    skip = 0,
+    searchTerm,
+  }: {
     technologyId?: string;
     take?: number;
     skip?: number;
     searchTerm?: string;
   }): Promise<SnippetResponseDto[]> {
-    const { technologyId, take = 10, skip = 0, searchTerm } = params;
-
-    const whereClause: Prisma.SnippetWhereInput = {
-      isPublished: true,
-      ...(technologyId && { technologyId }),
-      ...(searchTerm && {
-        OR: [
-          { title: { contains: searchTerm, mode: 'insensitive' } },
-          { description: { contains: searchTerm, mode: 'insensitive' } },
-          { content: { contains: searchTerm, mode: 'insensitive' } },
-          {
-            technology: {
-              name: { contains: searchTerm, mode: 'insensitive' },
-            },
-          },
-        ],
-      }),
-    };
-
     return this.prisma.snippet.findMany({
-      where: whereClause,
+      where: this.buildWhereClause({ technologyId, searchTerm }),
       take,
       skip,
       orderBy: { createdAt: 'desc' },
-      include: {
-        creator: {
-          select: {
-            id: true,
-            username: true,
-            image: true,
-            email: true,
-          },
-        },
-        technology: {
-          select: {
-            id: true,
-            name: true,
-            image: true,
-            description: true,
-          },
-        },
-      },
+      include: this.snippetIncludes(),
     });
   }
 
@@ -65,43 +85,22 @@ export class SnippetRepository {
     technologyId?: string,
     searchTerm?: string,
   ): Promise<number> {
-    const whereClause: Prisma.SnippetWhereInput = {
-      isPublished: true,
-      ...(technologyId && { technologyId }),
-      ...(searchTerm && {
-        OR: [
-          { title: { contains: searchTerm, mode: 'insensitive' } },
-          { description: { contains: searchTerm, mode: 'insensitive' } },
-          { content: { contains: searchTerm, mode: 'insensitive' } },
-          {
-            technology: {
-              name: { contains: searchTerm, mode: 'insensitive' },
-            },
-          },
-        ],
-      }),
-    };
-
-    return this.prisma.snippet.count({ where: whereClause });
+    return this.prisma.snippet.count({
+      where: this.buildWhereClause({ technologyId, searchTerm }),
+    });
   }
 
   async getUserSnippets(userId: string): Promise<SnippetResponseDto[]> {
     return this.prisma.snippet.findMany({
       where: { creatorId: userId },
-      include: {
-        creator: true,
-        technology: true,
-      },
+      include: this.snippetIncludes(),
     });
   }
 
-  async getSnippetById(id: string): Promise<SnippetResponseDto> {
+  async getSnippetById(id: string): Promise<SnippetResponseDto | null> {
     return this.prisma.snippet.findUnique({
       where: { id },
-      include: {
-        creator: true,
-        technology: true,
-      },
+      include: this.snippetIncludes(),
     });
   }
 
@@ -127,20 +126,10 @@ export class SnippetRepository {
       data: {
         id: randomUUID(),
         title: snippet.title,
-        creatorId: creatorId,
+        creatorId,
         isPublished: false,
       },
-      include: {
-        creator: {
-          select: {
-            id: true,
-            username: true,
-            image: true,
-            email: true,
-          },
-        },
-        technology: true,
-      },
+      include: this.snippetIncludes(),
     });
   }
 }
