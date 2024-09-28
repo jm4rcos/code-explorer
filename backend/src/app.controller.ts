@@ -5,6 +5,10 @@ import { JwtAuthGuard } from './auth/jwt-guard';
 @Controller()
 export class AppController {
   constructor() {}
+  @Get('healthz')
+  healthCheck() {
+    return 'OK';
+  }
 
   @Get('protected')
   @UseGuards(JwtAuthGuard)
