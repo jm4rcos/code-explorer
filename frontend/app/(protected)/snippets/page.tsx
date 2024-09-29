@@ -1,11 +1,11 @@
 'use client';
 
-import { redirect } from 'next/navigation';
 import { useTransition } from 'react';
 
 import { useQuery } from '@tanstack/react-query';
 import { Code2Icon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 import { SnippetList } from '@/components/snippet-list';
 import { CustomButton } from '@/components/ui/custom-button';
@@ -35,6 +35,7 @@ const Page = () => {
   const { data: userSnippets, isLoading } = useQuery({
     queryKey: ['user-snippets', session?.user.accessToken],
     queryFn: () => getUserSnippets(session?.user.accessToken as string),
+    refetchOnWindowFocus: true,
   });
 
   return (

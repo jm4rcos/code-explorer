@@ -1,11 +1,12 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useCallback, useMemo, useRef, useState } from 'react';
 
 import * as Y from 'yjs';
 import { EditorContent } from '@tiptap/react';
 import { CheckIcon } from 'lucide-react';
 import { useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 import { initialContent } from '@/lib/data/initialContent';
@@ -23,46 +24,70 @@ import '@/styles/index.css';
 import { LinkMenu, TextMenu } from '../menus';
 import { CustomButton } from '../ui/custom-button';
 
-export const BlockEditor = ({ ydoc, snippet }: { ydoc: Y.Doc; snippet: any }) => {
-  const menuContainerRef = useRef(null);
+interface BlockEditorProps {
+  ydoc: Y.Doc;
+  snippet: any;
+}
 
+export const BlockEditor: React.FC<BlockEditorProps> = ({ ydoc, snippet }) => {
   const { data: session } = useSession();
 
+  if (snippet?.creator.id !== session?.user.id) {
+    return redirect('/');
+  }
+
+  const menuContainerRef = useRef<HTMLDivElement>(null);
   const [dirty, setDirty] = useState<boolean>(false);
+
+  const currentContent = useMemo(() => {
+    if (!snippet?.content) return initialContent;
+
+    if (typeof snippet.content === 'string') {
+      try {
+        return JSON.parse(snippet.content);
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+        return snippet.content;
+      }
+    }
+
+    return snippet.content;
+  }, [snippet?.content]);
 
   const { editor } = useBlockEditor({
     ydoc,
-    currentContent: JSON.parse(snippet?.content) || initialContent,
+    currentContent: currentContent,
     editable: true,
   });
 
-  const handleSaveContent = async () => {
-    if (editor && session) {
-      const jsonContent = editor.getJSON();
+  const handleSaveContent = useCallback(async () => {
+    if (!editor || !session) return;
 
+    const jsonContent = editor.getJSON();
+
+    try {
       await updateSnippetContent(
-        snippet.id,
-        session?.user.accessToken,
+        snippet?.id,
+        session.user.accessToken,
         JSON.stringify(jsonContent) as UpdateSnippetContent,
-      )
-        .then(() => {
-          editor.commands.setContent(jsonContent);
-          setDirty(false);
-          toast.success('Snippet updated successfully');
-        })
-        .then(() => {
-          window.location.reload();
-        });
+      );
+      editor.commands.setContent(jsonContent);
+      setDirty(false);
+      toast.success('Snippet updated!');
+    } catch (error) {
+      console.error('Error saving content:', error);
+      toast.error('Error saving content. Please try again.');
     }
-  };
+  }, [editor, session, snippet.id]);
+
+  if (!editor) {
+    return null;
+  }
 
   editor.on('update', ({ editor }) => {
     setDirty(true);
   });
 
-  if (!editor) {
-    return null;
-  }
   return (
     <>
       <div className="max-w-2xl w-full items-center pr-10 gap-3 flex justify-between">
@@ -77,13 +102,13 @@ export const BlockEditor = ({ ydoc, snippet }: { ydoc: Y.Doc; snippet: any }) =>
             onClick={handleSaveContent}
           >
             <CheckIcon className="w-5 h-5 text-text group-hover:text-title group-hover:scale-110 transition-all duration-200" />
-            Save Changes
+            Salvar Alterações
           </CustomButton>
         )}
       </div>
       <div className="flex flex-col w-full gap-4 items-center h-full relative" ref={menuContainerRef}>
         <TextMenu editor={editor} />
-        <EditorContent editor={editor} className="flex-1 w-full overflow-y-auto " />
+        <EditorContent editor={editor} className="flex-1 w-full overflow-y-auto" />
         <LinkMenu editor={editor} appendTo={menuContainerRef} />
         <ColumnsMenu editor={editor} appendTo={menuContainerRef} />
         <TableRowMenu editor={editor} appendTo={menuContainerRef} />

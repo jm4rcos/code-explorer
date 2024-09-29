@@ -12,7 +12,6 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { SnippetsService } from './snippets.service';
 import {
   ApiBearerAuth,
   ApiOperation,
@@ -22,10 +21,11 @@ import {
 } from '@nestjs/swagger';
 import { JwtAuthGuard } from 'src/auth/jwt-guard';
 import { CurrentUser } from 'src/common/decorators/current-user.decorator';
-import { SnippetResponseDto } from './dto/snippet-response.dto';
-import { UpdateSnippetDto } from './dto/update-snippet.dto';
 import { CreateSnippetDto } from './dto/create-snippet.dto';
+import { SnippetResponseDto } from './dto/snippet-response.dto';
 import { UpdateSnippetContentDto } from './dto/update-snippet-content.dto';
+import { UpdateSnippetDto } from './dto/update-snippet.dto';
+import { SnippetsService } from './snippets.service';
 
 @Controller('snippets')
 @ApiTags('snippets')
@@ -130,6 +130,8 @@ export class SnippetsController {
     @CurrentUser() currentUser: string,
   ) {
     const snippet = await this.snippetsService.getSnippetById(id);
+
+    console.log(snippet?.creator.id, currentUser);
 
     if (snippet.creator.id !== currentUser) {
       throw new HttpException(
